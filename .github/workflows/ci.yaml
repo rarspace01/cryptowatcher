@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  SERVICE: 'cryptowatcher'
+  GHCR: 'ghcr.io'
+
 jobs:
   buildFatJarForJVM:
     name: Build JVM jar application
@@ -77,7 +81,12 @@ jobs:
       - name: Build docker image
         env:
           DOCKER_IMAGE: ${{ env.dockerImageString }}
-        run: docker build -t "${{ env.repositoryOwner }}/cryptowatcher:${{ env.DOCKER_IMAGE }}" .
+        run: docker build -t "${{ env.GHCR }}/${{ env.repositoryOwner }}/${{ env.SERVICE }}:${{ env.DOCKER_IMAGE }}" .
+      - name: Push docker image
+        env:
+          DOCKER_IMAGE: ${{ env.dockerImageString }}
+        run: |
+        docker push "${{ env.GHCR }}/${{ env.repositoryOwner }}/${{ env.SERVICE }}:${{ env.DOCKER_IMAGE }}"
   buildFatJarForGraalVM:
     name: Build GraalVM jar application
     runs-on: ubuntu-latest
