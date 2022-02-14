@@ -82,11 +82,16 @@ jobs:
         env:
           DOCKER_IMAGE: ${{ env.dockerImageString }}
         run: docker build -t "${{ env.GHCR }}/${{ env.repositoryOwner }}/${{ env.SERVICE }}:${{ env.DOCKER_IMAGE }}" .
+      - name: Tag docker image
+        env:
+          DOCKER_IMAGE: ${{ env.dockerImageString }}
+        run: docker tag "${{ env.GHCR }}/${{ env.repositoryOwner }}/${{ env.SERVICE }}:${{ env.DOCKER_IMAGE }}" "${{ env.GHCR }}/${{ env.repositoryOwner }}/${{ env.SERVICE }}:latest"
       - name: Push docker image
         env:
           DOCKER_IMAGE: ${{ env.dockerImageString }}
         run: |
           docker push "${{ env.GHCR }}/${{ env.repositoryOwner }}/${{ env.SERVICE }}:${{ env.DOCKER_IMAGE }}"
+          docker push "${{ env.GHCR }}/${{ env.repositoryOwner }}/${{ env.SERVICE }}:latest"
   buildFatJarForGraalVM:
     name: Build GraalVM jar application
     runs-on: ubuntu-latest
