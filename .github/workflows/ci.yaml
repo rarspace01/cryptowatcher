@@ -86,7 +86,7 @@ jobs:
         env:
           DOCKER_IMAGE: ${{ env.dockerImageString }}
         run: |
-        docker push "${{ env.GHCR }}/${{ env.repositoryOwner }}/${{ env.SERVICE }}:${{ env.DOCKER_IMAGE }}"
+          docker push "${{ env.GHCR }}/${{ env.repositoryOwner }}/${{ env.SERVICE }}:${{ env.DOCKER_IMAGE }}"
   buildFatJarForGraalVM:
     name: Build GraalVM jar application
     runs-on: ubuntu-latest
