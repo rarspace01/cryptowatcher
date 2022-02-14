@@ -32,6 +32,7 @@ dependencies {
     implementation("io.quarkus:quarkus-resteasy")
     implementation("io.quarkus:quarkus-scheduler")
     implementation("io.quarkus:quarkus-arc")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation(enforcedPlatform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:${Versions.kotlinxCoroutinesVersion}"))
@@ -54,7 +55,7 @@ allOpen {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
-        this.jvmTarget = JavaVersion.VERSION_1_8.toString()
+        this.jvmTarget = JavaVersion.VERSION_11.toString()
         this.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
         this.javaParameters = true
     }
