@@ -77,7 +77,7 @@ jobs:
       - name: Build docker image
         env:
           DOCKER_IMAGE: ${{ env.dockerImageString }}
-        run: docker build -t ":${{ env.DOCKER_IMAGE }}" .
+        run: docker build -t "${{ env.repositoryOwner }}/cryptowatcher:${{ env.DOCKER_IMAGE }}" .
   buildFatJarForGraalVM:
     name: Build GraalVM jar application
     runs-on: ubuntu-latest
