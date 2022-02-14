@@ -104,7 +104,7 @@ jobs:
       - name: Build docker image
         env:
           DOCKER_IMAGE: ${{ env.dockerImageString }}
-        run: docker build -t ":${{ env.DOCKER_IMAGE }}" .
+        run: docker build -t ":graalvm-${{ env.DOCKER_IMAGE }}" .
 #  releaseJob:
 #    name: Create Github Release
 #    runs-on: ubuntu-latest
