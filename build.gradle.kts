@@ -54,7 +54,7 @@ allOpen {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
-        this.jvmTarget = JavaVersion.VERSION_1_8.toString()
+        this.jvmTarget = JavaVersion.VERSION_11.toString()
         this.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
         this.javaParameters = true
     }
