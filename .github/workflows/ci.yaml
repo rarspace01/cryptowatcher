@@ -22,6 +22,18 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Build dockerImageString
+        run: |
+          ref="${GITHUB_REF_NAME////-}"
+          repositoryOwner="${GITHUB_REPOSITORY_OWNER}"
+          sha="${GITHUB_SHA}"
+          echo $ref
+          dockerImageString="$ref-$sha"
+          echo ${dockerImageString,,}
+          echo "dockerImageString=${dockerImageString,,}">>$GITHUB_ENV
+          echo "repositoryOwner=${repositoryOwner,,}">>$GITHUB_ENV
+          echo "dockerImageString=${dockerImageString,,}"
+          echo "repositoryOwner=${repositoryOwner,,}"
       - name: Use Gradle packages cache
         uses: actions/cache@v2
         with:
