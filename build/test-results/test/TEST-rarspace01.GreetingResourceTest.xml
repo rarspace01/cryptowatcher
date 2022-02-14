@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="rarspace01.GreetingResourceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-02-13T16:48:53" hostname="ubuntu" time="1.776">
+  <properties/>
+  <testcase name="testHelloEndpoint()" classname="rarspace01.GreetingResourceTest" time="1.776"/>
+  <system-out><![CDATA[get nomics
+get TG messages
+Hdhjff@594935482
+]]></system-out>
+  <system-err><![CDATA[Feb 13, 2022 5:48:51 PM org.jboss.threads.Version <clinit>
+INFO: JBoss Threads version 3.4.2.Final
+Feb 13, 2022 5:48:53 PM org.jboss.threads.Version <clinit>
+INFO: JBoss Threads version 3.4.2.Final
+Feb 13, 2022 5:48:53 PM io.quarkus.bootstrap.runner.Timing printStartupTime
+INFO: Quarkus 2.7.1.Final on JVM started in 2.615s. Listening on: http://localhost:8081
+Feb 13, 2022 5:48:53 PM io.quarkus.bootstrap.runner.Timing printStartupTime
+INFO: Profile test activated. 
+Feb 13, 2022 5:48:53 PM io.quarkus.bootstrap.runner.Timing printStartupTime
+INFO: Installed features: [cdi, kotlin, resteasy, resteasy-jackson, scheduler, smallrye-context-propagation, vertx]
+]]></system-err>
+</testsuite>

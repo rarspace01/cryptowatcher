@@ -1,0 +1,3 @@
+[EXECUTABLE]
+cryptowatcher-1.0.0-runner
+
