@@ -12,5 +12,4 @@ ENV PATH="${PATH}:./jre/bin"
 #USER nobody
 # copy config for boat & if used rlcone
 COPY .env .env
-EXPOSE 8080
 CMD wget https://github.com/rarspace01/cryptowatcher/releases/latest/download/cryptowatcher.jar -O cryptowatcher.jar && chmod +x cryptowatcher.jar && ./jre/bin/java -XX:+HeapDumpOnOutOfMemoryError -jar cryptowatcher.jar
