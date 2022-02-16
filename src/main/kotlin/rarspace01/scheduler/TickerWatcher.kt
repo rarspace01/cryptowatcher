@@ -10,6 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Consumer
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
+import io.github.cdimascio.dotenv.dotenv
+
 
 @ApplicationScoped
 class TickerWatcher {
@@ -24,7 +26,7 @@ class TickerWatcher {
     @Scheduled(every = "10s")
     fun increment() {
         println("get nomics")
-        val apiKey = "13853957f76b11ca1d0b0145b0e3e0493b23941b"
+        val apiKey = dotenv()["NOMICS_API_KEY"] ?: ""
         val page = HttpHelper().getPage(
             "https://api.nomics.com/v1/currencies/ticker?key=$apiKey&ids=EWT3&interval=1d&convert=EUR&per-page=100&page=1"
         )

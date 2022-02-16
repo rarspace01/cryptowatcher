@@ -32,6 +32,7 @@ dependencies {
     implementation("io.quarkus:quarkus-resteasy")
     implementation("io.quarkus:quarkus-scheduler")
     implementation("io.quarkus:quarkus-arc")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation(enforcedPlatform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:${Versions.kotlinxCoroutinesVersion}"))

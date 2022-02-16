@@ -2,6 +2,7 @@ package rarspace01.notification
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.cdimascio.dotenv.dotenv
 import rarspace01.utilities.HttpHelper
 import java.net.URLEncoder
 import java.nio.charset.Charset
@@ -10,7 +11,7 @@ import kotlin.math.max
 
 @ApplicationScoped
 class TelegramService {
-    private val telegramApiKey = "5234041452:AAHRi9tV3cvqSH-1sAUEfvzw9AW7MbbpFxw"
+    private val telegramApiKey = dotenv()["TELEGRAM_API_KEY"] ?: ""
 
     private var offset: Long? = null
 
