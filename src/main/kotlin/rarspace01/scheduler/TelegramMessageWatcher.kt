@@ -25,6 +25,13 @@ class TelegramMessageWatcher {
                 tickerSubscriptionService.addSubscription(it.message.replace("/add ", ""), it.chatId)
             } else if (it.message.startsWith("/stop")) {
                 tickerSubscriptionService.removeAllSubscriptions(it.chatId)
+            } else if (it.message.startsWith("/help")) {
+                telegramService.sendMessage(
+                    it.chatId,
+                    "`/stop` stops all subscriptions\n" +
+                        "`/add BTC < 0.5` - subscribe to ticker when below 0.50€\n" +
+                        "`/stop BTC` - remove subscriptions to ticker"
+                )
             } else {
                 println(it.message + "@" + it.chatId)
                 telegramService.sendMessage(it.chatId, "message not yet supported. use /help for commands")

@@ -29,7 +29,7 @@ class TelegramService {
                     Message(it["message"]["chat"]["id"].asText(), it["message"]["text"].asText(), it["update_id"].asLong())
                 }.filter { it.updateId > (offset ?: 0) }
                     .onEach {
-                        if (it.message != "stop") {
+                        if (it.message != "/stop") {
                             subscriberList.add(it.chatId)
                         } else {
                             subscriberList.remove(it.chatId)
