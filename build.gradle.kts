@@ -31,6 +31,8 @@ dependencies {
     implementation("io.quarkus:quarkus-kotlin")
     implementation("io.quarkus:quarkus-resteasy")
     implementation("io.quarkus:quarkus-scheduler")
+    implementation("io.quarkus:quarkus-mongodb-panache")
+    implementation("io.quarkus:quarkus-mongodb-panache-kotlin")
     implementation("io.quarkus:quarkus-arc")
     implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
 
