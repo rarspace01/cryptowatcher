@@ -11,4 +11,4 @@ RUN apt-get update && apt-get install -y curl wget unzip dnsutils \
 ENV PATH="${PATH}:./jre/bin"
 #USER nobody
 # copy config for boat & if used rlcone
-CMD wget https://github.com/rarspace01/cryptowatcher/releases/latest/download/cryptowatcher.jar -O cryptowatcher.jar && chmod +x cryptowatcher.jar && ./jre/bin/java -XX:+HeapDumpOnOutOfMemoryError -jar cryptowatcher.jar
+CMD wget https://github.com/rarspace01/cryptowatcher/releases/latest/download/cryptowatcher-1.0.0-runner.jar -O cryptowatcher.jar && chmod +x cryptowatcher.jar && ./jre/bin/java -XX:+HeapDumpOnOutOfMemoryError -jar cryptowatcher.jar
