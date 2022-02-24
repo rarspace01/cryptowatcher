@@ -26,7 +26,10 @@ class TelegramService {
         return try {
             val jsonNodeRoot = objectMapper.readTree(page)
             if (jsonNodeRoot != null && !jsonNodeRoot.get("result").isNull) {
-                jsonNodeRoot.get("result").map {
+                jsonNodeRoot.get("result").mapNotNull {
+                    if (it["message"].isNull || it["update_id"].isNull) {
+                    null
+                    }
                     val chatId = it["message"]["chat"]["id"].asText()
                     val message = it["message"]["text"].asText()
                     val updateId = it["update_id"].asLong()
