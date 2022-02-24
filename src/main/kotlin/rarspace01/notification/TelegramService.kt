@@ -28,15 +28,16 @@ class TelegramService {
                 jsonNodeRoot.get("result").mapNotNull {
                     if (it["message"] == null || it["message"]["chat"] == null || it["message"]["chat"]["id"] == null || it["update_id"] == null) {
                     null
+                    } else {
+                            val chatId = it["message"]["chat"]["id"].asText()
+                        val message = it["message"]["text"].asText()
+                        val updateId = it["update_id"].asLong()
+                        Message(
+                            chatId,
+                            message,
+                            updateId
+                        )
                     }
-                    val chatId = it["message"]["chat"]["id"].asText()
-                    val message = it["message"]["text"].asText()
-                    val updateId = it["update_id"].asLong()
-                    Message(
-                        chatId,
-                        message,
-                        updateId
-                    )
                 }.filter { it.updateId > (offset ?: 0) }
                     .onEach {
                         if (it.message != "/stop") {
