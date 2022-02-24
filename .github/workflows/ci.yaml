@@ -68,7 +68,7 @@ jobs:
         with:
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
           files: |
-            ./build/*-runner.jar
+            ./build/cryptowatcher-1.0.0-runner.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v2
@@ -76,7 +76,7 @@ jobs:
         with:
           name: jvmArtifacts-${{ github.sha }}
           path: |
-            ./build/*-runner.jar
+            ./build/cryptowatcher-1.0.0-runner.jar
           retention-days: 1
   buildDocker:
     name: buildDocker Image
