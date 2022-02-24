@@ -20,6 +20,7 @@ class TelegramService {
     fun getNewMessages(): List<Message> {
 
         val url = "https://api.telegram.org/bot$telegramApiKey/getUpdates" + (if (offset != null) "?offset=$offset" else "")
+        println("$url - check Messages")
         val page = HttpHelper().getPage(url)
         val objectMapper = ObjectMapper()
         return try {
