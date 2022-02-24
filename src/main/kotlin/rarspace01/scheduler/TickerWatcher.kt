@@ -26,7 +26,7 @@ class TickerWatcher {
     @Scheduled(every = "10s")
     fun getTicketUpdate() {
         println("get nomics")
-        val apiKey = dotenv()["NOMICS_API_KEY"] ?: ""
+        val apiKey = dotenv {ignoreIfMissing = true}["NOMICS_API_KEY"] ?: ""
         val page = HttpHelper().getPage(
             "https://api.nomics.com/v1/currencies/ticker?key=$apiKey&ids=EWT3&interval=1d&convert=EUR&per-page=100&page=1"
         )

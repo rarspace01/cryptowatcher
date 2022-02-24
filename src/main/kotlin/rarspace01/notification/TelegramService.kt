@@ -11,7 +11,7 @@ import kotlin.math.max
 
 @ApplicationScoped
 class TelegramService {
-    private val telegramApiKey = dotenv()["TELEGRAM_API_KEY"] ?: ""
+    private val telegramApiKey = dotenv {ignoreIfMissing = true}["TELEGRAM_API_KEY"] ?: ""
 
     private var offset: Long? = null
 
