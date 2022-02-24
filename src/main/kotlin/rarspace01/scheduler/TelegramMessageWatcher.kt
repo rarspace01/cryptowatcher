@@ -5,6 +5,7 @@ import rarspace01.notification.TelegramService
 import rarspace01.notification.TickerSubscriptionService
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
+import kotlin.system.exitProcess
 
 @ApplicationScoped
 class TelegramMessageWatcher {
@@ -37,6 +38,8 @@ class TelegramMessageWatcher {
                 }
             } else if (message.message.startsWith("/stop")) {
                 tickerSubscriptionService.removeAllSubscriptions(message.chatId)
+            } else if (message.message.startsWith("/restart")) {
+                exitProcess(0)
             } else if (message.message.startsWith("/help")) {
                 telegramService.sendMessage(
                     message.chatId,
