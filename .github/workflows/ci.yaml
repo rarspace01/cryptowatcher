@@ -138,7 +138,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew assemble -Dquarkus.package.type=native
-      - run: native-image --no-fallback --allow-incomplete-classpath -jar "./build/*-runner.jar" boatImage
+      #- run: native-image --no-fallback --allow-incomplete-classpath -jar "./build/*-runner.jar" boatImage
       - uses: actions/upload-artifact@v2
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         with:
