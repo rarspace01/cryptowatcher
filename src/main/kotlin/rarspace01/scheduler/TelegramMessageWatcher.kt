@@ -43,9 +43,9 @@ class TelegramMessageWatcher {
             } else if (message.message.startsWith("/help")) {
                 telegramService.sendMessage(
                     message.chatId,
-                    "`/stop` stops all subscriptions\n" +
-                        "`/add BTC < 0.5` - subscribe to ticker when below 0.50€\n" +
-                        "`/stop BTC` - remove subscriptions to ticker"
+                    "/stop - stops all subscriptions\n" +
+                        "/add BTC < 0.5 - subscribe to ticker when below 0.50€\n" +
+                        "/stop BTC - remove subscriptions to ticker"
                 )
             } else {
                 println(message.message + "@" + message.chatId)
