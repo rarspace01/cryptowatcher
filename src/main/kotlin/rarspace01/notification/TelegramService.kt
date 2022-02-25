@@ -3,8 +3,8 @@ package rarspace01.notification
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.cdimascio.dotenv.dotenv
-import rarspace01.configuration.Configuration
-import rarspace01.configuration.ConfigurationRepository
+import rarspace01.configuration.ServiceConfiguration
+import rarspace01.configuration.ServiceConfigurationRepository
 import rarspace01.utilities.HttpHelper
 import java.net.URLEncoder
 import java.nio.charset.Charset
@@ -12,18 +12,18 @@ import javax.enterprise.context.ApplicationScoped
 import kotlin.math.max
 
 @ApplicationScoped
-class TelegramService(private val configurationRepository: ConfigurationRepository) {
+class TelegramService(private val serviceConfigurationRepository: ServiceConfigurationRepository) {
     private val telegramApiKey = dotenv { ignoreIfMissing = true }["TELEGRAM_API_KEY"] ?: ""
 
     private var offset: Long = getOffsetFromDatabase()
 
     private val subscriberList = mutableSetOf<String>()
 
-    private fun getOffsetFromDatabase() = configurationRepository.findAll().firstResult<Configuration>()?.offset ?: 0
+    private fun getOffsetFromDatabase() = serviceConfigurationRepository.findAll().firstResult<ServiceConfiguration>()?.offset ?: 0
 
     private fun saveOffsetToDatabase(offset: Long) {
-        val configuration = configurationRepository.findAll().firstResult() ?: Configuration(offset = offset)
-        configurationRepository.persist(configuration)
+        val serviceConfiguration = serviceConfigurationRepository.findAll().firstResult() ?: ServiceConfiguration(offset = offset)
+        serviceConfigurationRepository.persist(serviceConfiguration)
     }
 
     fun getNewMessages(): List<Message> {
