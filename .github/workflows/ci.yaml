@@ -45,7 +45,7 @@ jobs:
           path: |
             ~/.gradle/caches/
             ~/.gradle/wrapper/
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.*','') }}
+          key: ${{ runner.os }}-jvm-gradle-${{ hashFiles('**/*.gradle.*','**/gradle-wrapper.*') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -136,6 +136,14 @@ jobs:
           graalvm-version: 22.0.0.2
           native-image: true
       - run: java -version
+      - name: Use Gradle packages cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches/
+            ~/.gradle/wrapper/
+          key: ${{ runner.os }}-graal-gradle-${{ hashFiles('**/*.gradle.*','**/gradle-wrapper.*') }}
+          restore-keys: ${{ runner.os }}-gradle
       - name: Build with Gradle (GraalVM)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
