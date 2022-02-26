@@ -99,7 +99,7 @@ fun getCheckedOutGitCommitHash(): String {
     return refHead.readText(Charsets.UTF_8).trim().take(takeFromHash)
 }
 
-fun runCommand(commands:List<String>,currentWorkingDir: File = file("./")): String {
+fun runCommand(commands: List<String>, currentWorkingDir: File = file("./")): String {
     val byteOut = ByteArrayOutputStream()
     project.exec {
         workingDir = currentWorkingDir
@@ -109,8 +109,8 @@ fun runCommand(commands:List<String>,currentWorkingDir: File = file("./")): Stri
     return String(byteOut.toByteArray()).trim()
 }
 
-fun getTagVersion():String {
-    return runCommand(listOf("sh","-c","git fetch --all --tags>/dev/null&& git describe --tags --always --first-parent|tail -1")).trim()
+fun getTagVersion(): String {
+    return runCommand(listOf("sh", "-c", "git fetch --all --tags>/dev/null&& git describe --tags --always --first-parent|tail -1")).trim()
 }
 
 tasks.register("createProperties") {
