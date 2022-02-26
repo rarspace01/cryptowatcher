@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream
+
 plugins {
     val kotlinVersion = "1.6.10"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
@@ -97,11 +99,25 @@ fun getCheckedOutGitCommitHash(): String {
     return refHead.readText(Charsets.UTF_8).trim().take(takeFromHash)
 }
 
+fun runCommand(commands:List<String>,currentWorkingDir: File = file("./")): String {
+    val byteOut = ByteArrayOutputStream()
+    project.exec {
+        workingDir = currentWorkingDir
+        commandLine = commands
+        standardOutput = byteOut
+    }
+    return String(byteOut.toByteArray()).trim()
+}
+
+fun getTagVersion():String {
+    return runCommand(listOf("sh","-c","git fetch --all --tags>/dev/null&& git describe --tags --always --first-parent|tail -1")).trim()
+}
+
 tasks.register("createProperties") {
     dependsOn("processResources")
     doLast {
         val writer = file("$buildDir/resources/main/version.properties").writer(Charsets.UTF_8)
-        val deductedVersion = project.version.toString() + "-" + getCheckedOutGitCommitHash()
+        val deductedVersion = getTagVersion() + "-" + getCheckedOutGitCommitHash()
         println("Wrote [Version:$deductedVersion] to \"$buildDir/resources/main/version.properties\"")
         writer.write("version=" + deductedVersion)
         writer.flush()
