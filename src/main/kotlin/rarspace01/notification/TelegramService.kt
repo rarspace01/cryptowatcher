@@ -19,11 +19,14 @@ class TelegramService(private val serviceConfigurationRepository: ServiceConfigu
 
     private val subscriberList = mutableSetOf<String>()
 
-    private fun getOffsetFromDatabase() = serviceConfigurationRepository.findAll().firstResult<ServiceConfiguration>()?.offset ?: 0
+    private fun getOffsetFromDatabase(): Long {
+        return serviceConfigurationRepository.findAll().firstResult<ServiceConfiguration>()?.offset
+            ?: 0L
+    }
 
     private fun saveOffsetToDatabase(offset: Long) {
         val serviceConfiguration = serviceConfigurationRepository.findAll().firstResult() ?: ServiceConfiguration(offset = offset)
-        serviceConfigurationRepository.persist(serviceConfiguration)
+        serviceConfigurationRepository.persist(serviceConfiguration.copy(offset = offset))
     }
 
     fun getNewMessages(): List<Message> {
@@ -67,7 +70,6 @@ class TelegramService(private val serviceConfigurationRepository: ServiceConfigu
     }
 
     fun sendMessage(chatId: String, text: String) {
-        val params = mapOf("chat_id" to chatId, "text" to text)
         HttpHelper().getPage(
             "https://api.telegram.org/bot$telegramApiKey/sendMessage?chat_id=$chatId&text=${
             URLEncoder.encode(
@@ -77,5 +79,4 @@ class TelegramService(private val serviceConfigurationRepository: ServiceConfigu
             }"
         )
     }
-
 }
