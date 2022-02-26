@@ -1,20 +1,20 @@
 package rarspace01.scheduler
 
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.cdimascio.dotenv.dotenv
 import io.quarkus.scheduler.Scheduled
+import rarspace01.notification.Subscription
+import rarspace01.notification.SubscriptionRepository
 import rarspace01.notification.TelegramService
 import rarspace01.ticker.Ticker
 import rarspace01.utilities.HttpHelper
 import java.util.concurrent.atomic.AtomicInteger
-import java.util.function.Consumer
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
 @ApplicationScoped
-class TickerWatcher {
+class TickerWatcher(private val subscriptionRepository: SubscriptionRepository) {
     private val counter = AtomicInteger()
     fun get(): Int {
         return counter.get()
@@ -25,10 +25,14 @@ class TickerWatcher {
 
     @Scheduled(every = "10s")
     fun getTicketUpdate() {
+        val ticker = subscriptionRepository.findAll().stream<Subscription>().map { it.ticker }.toList().toSet()
         println("get nomics")
+        val tickerIds = ticker.joinToString(separator = ",")
         val apiKey = dotenv {ignoreIfMissing = true}["NOMICS_API_KEY"] ?: ""
+        val url = "https://api.nomics.com/v1/currencies/ticker?key=$apiKey&ids=$tickerIds&interval=1d&convert=EUR&per-page=100&page=1"
+        println(url)
         val page = HttpHelper().getPage(
-            "https://api.nomics.com/v1/currencies/ticker?key=$apiKey&ids=EWT3&interval=1d&convert=EUR&per-page=100&page=1"
+            url
         )
         val objectMapper = ObjectMapper()
         try {

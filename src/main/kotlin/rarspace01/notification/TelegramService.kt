@@ -15,23 +15,22 @@ import kotlin.math.max
 class TelegramService(private val serviceConfigurationRepository: ServiceConfigurationRepository) {
     private val telegramApiKey = dotenv { ignoreIfMissing = true }["TELEGRAM_API_KEY"] ?: ""
 
-    private var offset: Long = getOffsetFromDatabase()
-
-    private val subscriberList = mutableSetOf<String>()
-
     private fun getOffsetFromDatabase(): Long {
         return serviceConfigurationRepository.findAll().firstResult<ServiceConfiguration>()?.offset
             ?: 0L
     }
 
     private fun saveOffsetToDatabase(offset: Long) {
-        val serviceConfiguration = serviceConfigurationRepository.findAll().firstResult() ?: ServiceConfiguration(offset = offset)
-        serviceConfigurationRepository.persist(serviceConfiguration.copy(offset = offset))
+        var serviceConfiguration = serviceConfigurationRepository.findAll().firstResultOptional<ServiceConfiguration>().orElse(ServiceConfiguration())
+        serviceConfiguration.offset = offset
+        serviceConfigurationRepository.persistOrUpdate(serviceConfiguration)
     }
 
     fun getNewMessages(): List<Message> {
+        var offset = getOffsetFromDatabase()
 
         val url = "https://api.telegram.org/bot$telegramApiKey/getUpdates?offset=$offset"
+        println("$url")
         val page = HttpHelper().getPage(url)
         val objectMapper = ObjectMapper()
         return try {
@@ -52,12 +51,6 @@ class TelegramService(private val serviceConfigurationRepository: ServiceConfigu
                     }
                 }.filter { it.updateId > offset }
                     .onEach {
-                        if (it.message != "/stop") {
-                            subscriberList.add(it.chatId)
-                        } else {
-                            subscriberList.remove(it.chatId)
-                        }
-
                         offset = max(offset, it.updateId)
                         saveOffsetToDatabase(offset)
                     }

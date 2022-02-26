@@ -1,11 +1,10 @@
 package rarspace01.notification
 
-import org.bson.types.ObjectId
+import io.quarkus.mongodb.panache.kotlin.PanacheMongoEntity
 
-data class Subscription(
-    val id: ObjectId? = null,
-    val ticker: String = "",
-    val user: String = "",
-    val value: Double = 0.0,
-    val isLessThan: Boolean = true,
-)
+class Subscription : PanacheMongoEntity() {
+    lateinit var ticker: String
+    lateinit var user: String
+    var value: Double = 0.0
+    var isLessThan: Boolean = false
+}

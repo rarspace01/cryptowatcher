@@ -1,8 +1,7 @@
 package rarspace01.configuration
 
-import org.bson.types.ObjectId
+import io.quarkus.mongodb.panache.kotlin.PanacheMongoEntity
 
-data class ServiceConfiguration(
-    val id: ObjectId? = null,
-    val offset: Long = 0L
-)
+class ServiceConfiguration : PanacheMongoEntity() {
+    var offset: Long = 0L
+}

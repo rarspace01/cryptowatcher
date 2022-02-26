@@ -22,12 +22,13 @@ class TelegramMessageWatcher {
     fun checkForNewMessages() {
         println("get TG messages")
         telegramService.getNewMessages().forEach { message ->
+            println(message)
             if (message.message == "/start") {
                 telegramService.sendMessage(message.chatId, "you are now subscribed! Add token to watch with `/add TokenId`  you can stop anytime with `/stop`")
             } else if (message.message.startsWith("/add")) {
-                val messageFromUser = message.message.replace("/add ", "")
+                val messageFromUser = message.message.trim().replace("/add ", "")
                 subscriptionRegex.findAll(messageFromUser).iterator().forEach {
-                    if (it.groups.size == 3) {
+                    if (it.groups.size == 4) {
                         val ticker = it.groups[1]?.value ?: ""
                         val isLessThan = it.groups[2]?.value == "<"
                         val tickerValue = it.groups[3]?.value?.toDoubleOrNull() ?: -1.0
