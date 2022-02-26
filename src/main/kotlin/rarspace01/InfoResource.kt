@@ -16,7 +16,7 @@ class InfoResource {
             this.load(inputStream)
         }
         val appVersion = properties.getProperty("version", "0")
-        println("appVersion:" + appVersion)
+        println("appVersion:$appVersion")
         return appVersion
     }
 }
