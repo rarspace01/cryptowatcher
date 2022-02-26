@@ -39,6 +39,8 @@ class TelegramMessageWatcher {
                 }
             } else if (message.message.startsWith("/stop")) {
                 tickerSubscriptionService.removeAllSubscriptions(message.chatId)
+            } else if (message.message.startsWith("/list")) {
+                telegramService.sendMessage(message.chatId, tickerSubscriptionService.getSubscriptionsFromUser(message.chatId).map { it.toPrint() }.joinToString(separator = "\n"))
             } else if (message.message.startsWith("/restart")) {
                 exitProcess(0)
             } else if (message.message.startsWith("/help")) {
@@ -46,6 +48,7 @@ class TelegramMessageWatcher {
                     message.chatId,
                     "/stop - stops all subscriptions\n" +
                         "/add BTC < 0.5 - subscribe to ticker when below 0.50€\n" +
+                        "/list - list all subscriptions\n" +
                         "/stop BTC - remove subscriptions to ticker"
                 )
             } else {

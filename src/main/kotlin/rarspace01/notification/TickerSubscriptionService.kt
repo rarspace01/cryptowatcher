@@ -11,7 +11,7 @@ class TickerSubscriptionService(private val subscriptionRepository: Subscription
         subscription.user = user
         subscription.value = tickerValue
         subscription.isLessThan = isLessThan
-        println("persisting subscription: $subscription")
+        println("persisting subscription: ${subscription.toPrint()}")
         subscriptionRepository.persist(subscription)
     }
 
@@ -21,5 +21,9 @@ class TickerSubscriptionService(private val subscriptionRepository: Subscription
 
     fun removeAllSubscriptions(user: String) {
         subscriptionRepository.findByUser(user).forEach { removeSubscription(it.ticker, it.user) }
+    }
+
+    fun getSubscriptionsFromUser(user: String):List<Subscription> {
+        return subscriptionRepository.findByUser(user).toList()
     }
 }

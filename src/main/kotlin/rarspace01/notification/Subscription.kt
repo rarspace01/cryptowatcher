@@ -7,4 +7,6 @@ class Subscription : PanacheMongoEntity() {
     lateinit var user: String
     var value: Double = 0.0
     var isLessThan: Boolean = false
+
+    fun toPrint(): String = "$ticker - $user  - ${if (isLessThan) "<" else ">"} $value "
 }
