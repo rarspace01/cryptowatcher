@@ -71,13 +71,13 @@ jobs:
             ./build/cryptowatcher-1.0.0-runner.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v2
-        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-        with:
-          name: jvmArtifacts-${{ github.sha }}
-          path: |
-            ./build/cryptowatcher-1.0.0-runner.jar
-          retention-days: 1
+#      - uses: actions/upload-artifact@v2
+#        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+#        with:
+#          name: jvmArtifacts-${{ github.sha }}
+#          path: |
+#            ./build/cryptowatcher-1.0.0-runner.jar
+#          retention-days: 1
   buildDocker:
     name: buildDocker Image
     runs-on: ubuntu-latest
