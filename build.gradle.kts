@@ -78,3 +78,37 @@ tasks.named<Test>("test") {
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
 }
+
+fun getCheckedOutGitCommitHash(): String {
+    val gitFolder = "$projectDir/.git/"
+    val takeFromHash = 12
+    /*
+     * '.git/HEAD' contains either
+     *      in case of detached head: the currently checked out commit hash
+     *      otherwise: a reference to a file containing the current commit hash
+     */
+    val head = File(gitFolder + "HEAD").readText(Charsets.UTF_8).split(":") // .git/HEAD
+    val isCommit = head.size == 1 // e5a7c79edabbf7dd39888442df081b1c9d8e88fd
+    // def isRef = head.length > 1     // ref: refs/heads/master
+
+    if (isCommit) return head[0].trim().take(takeFromHash) // e5a7c79edabb
+
+    val refHead = File(gitFolder + head[1].trim()) // .git/refs/heads/master
+    return refHead.readText(Charsets.UTF_8).trim().take(takeFromHash)
+}
+
+tasks.register("createProperties") {
+    dependsOn("processResources")
+    doLast {
+        val writer = file("$buildDir/resources/main/version.properties").writer(Charsets.UTF_8)
+        val deductedVersion = project.version.toString() + "-" + getCheckedOutGitCommitHash()
+        println("Wrote [Version:$deductedVersion] to \"$buildDir/resources/main/version.properties\"")
+        writer.write("version=" + deductedVersion)
+        writer.flush()
+        writer.close()
+    }
+}
+
+tasks.named("classes") {
+    dependsOn("createProperties")
+}
