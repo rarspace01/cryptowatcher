@@ -46,7 +46,7 @@ jobs:
             ~/.gradle/caches/
             ~/.gradle/wrapper/
           key: ${{ runner.os }}-jvm-gradle-${{ hashFiles('**/*.gradle.*','**/gradle-wrapper.*') }}
-          restore-keys: ${{ runner.os }}-gradle
+          restore-keys: ${{ runner.os }}-jvm-gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Bump version and push tag
@@ -143,7 +143,7 @@ jobs:
             ~/.gradle/caches/
             ~/.gradle/wrapper/
           key: ${{ runner.os }}-graal-gradle-${{ hashFiles('**/*.gradle.*','**/gradle-wrapper.*') }}
-          restore-keys: ${{ runner.os }}-gradle
+          restore-keys: ${{ runner.os }}-graal-gradle
       - name: Build with Gradle (GraalVM)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
