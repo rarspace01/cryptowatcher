@@ -42,7 +42,8 @@ class TelegramMessageWatcher {
             } else if (message.message.startsWith("/stop")) {
                 tickerSubscriptionService.removeAllSubscriptions(message.chatId)
             } else if (message.message.startsWith("/list")) {
-                telegramService.sendMessage(message.chatId, tickerSubscriptionService.getSubscriptionsFromUser(message.chatId).map { it.toPrint() }.joinToString(separator = "\n"))
+                telegramService.sendMessage(message.chatId,
+                    tickerSubscriptionService.getSubscriptionsFromUser(message.chatId).joinToString(separator = "\n") { it.toUserfriendlyPrint() })
             } else if (message.message.startsWith("/restart")) {
                 exitProcess(0)
             } else if (message.message.startsWith("/help")) {
