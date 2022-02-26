@@ -1,5 +1,6 @@
 package rarspace01
 
+import rarspace01.utilities.EnvironmentService
 import java.util.Properties
 import javax.ws.rs.GET
 import javax.ws.rs.Path
@@ -11,11 +12,7 @@ class InfoResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     fun info(): String {
-        val inputStream = this.javaClass.classLoader.getResourceAsStream("version.properties")
-        val properties = Properties().apply {
-            this.load(inputStream)
-        }
-        val appVersion = properties.getProperty("version", "0")
+        val appVersion = EnvironmentService().getAppVersion()
         println("appVersion:$appVersion")
         return appVersion
     }

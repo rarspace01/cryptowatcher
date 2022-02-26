@@ -3,6 +3,7 @@ package rarspace01.scheduler
 import io.quarkus.scheduler.Scheduled
 import rarspace01.notification.TelegramService
 import rarspace01.notification.TickerSubscriptionService
+import rarspace01.utilities.EnvironmentService
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 import kotlin.system.exitProcess
@@ -24,7 +25,8 @@ class TelegramMessageWatcher {
         telegramService.getNewMessages().forEach { message ->
             println(message)
             if (message.message == "/start") {
-                telegramService.sendMessage(message.chatId, "you are now subscribed! Add token to watch with `/add TokenId`  you can stop anytime with `/stop`")
+                val appVersion = EnvironmentService().getAppVersion()
+                telegramService.sendMessage(message.chatId, "Welcome to the Cryptowatcher Bot ($appVersion).\nGet commands with /help")
             } else if (message.message.startsWith("/add")) {
                 val messageFromUser = message.message.trim().replace("/add ", "")
                 subscriptionRegex.findAll(messageFromUser).iterator().forEach {
